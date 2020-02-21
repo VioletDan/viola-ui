@@ -68,14 +68,14 @@ export default {
 
 <style scoped lang="scss">
 .viola-switch {
-  width: 120px;
+  width: auto;
   overflow: hidden;
   input {
     display: none;
   }
   .slot {
     height: 31px;
-    width: 50px;
+    width: auto;
     display: inline-block;
     line-height: 31px;
     text-align: center;
@@ -97,6 +97,7 @@ export default {
     -webkit-appearance: none;
     user-select: none;
     outline: none;
+    float: left;
     &.checked {
       border-color: #64bd63;
       box-shadow: #64bd63 0 0 0 16px inset;
@@ -109,7 +110,7 @@ export default {
       width: 29px;
       height: 29px;
       position: absolute;
-      top: 0;
+      top: 0.5px;
       left: 0;
       border-radius: 20px;
       background-color: #fff;

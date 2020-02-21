@@ -2,8 +2,6 @@
 
 > 工作之余写的小 ui，初次写，请大家多多指教
 
-![image](images/switch.png)
-
 ## Build Setup
 
 ```bash
