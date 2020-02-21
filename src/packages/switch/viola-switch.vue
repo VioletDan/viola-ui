@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="viola-switch">
+      <span class="slot"><slot></slot></span>
       <div
         :class="[
           { checked: checked },
@@ -10,15 +11,16 @@
       >
         <span :class="[{ checked: checked }, 'switch-box-ani2']"></span>
       </div>
-      <!-- <input
+      <input
         type="checkbox"
         name="check"
         class="check"
         @change="handleChange"
         :true-value="activeValue"
         :false-value="inactiveValue"
-        :checked="checked"
-      /> -->
+        :disabled="disabled"
+        :value="value"
+      />
     </div>
   </div>
 </template>
@@ -38,6 +40,10 @@ export default {
     inactiveValue: {
       type: [Boolean, String, Number],
       default: false
+    },
+    disabled: {
+      type: [Boolean],
+      default: true
     }
   },
   data() {
@@ -61,41 +67,59 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.switch-box {
-  width: 52px;
-  height: 31px;
-  position: relative;
-  border: 1px solid #dfdfdf;
-  background-color: #fdfdfd;
-  box-shadow: #dfdfdf 0 0 0 0 inset;
-  border-radius: 20px;
-  background-clip: content-box;
-  display: inline-block;
-  -webkit-appearance: none;
-  user-select: none;
-  outline: none;
-  &.checked {
-    border-color: #64bd63;
-    box-shadow: #64bd63 0 0 0 16px inset;
-    background-color: #64bd63;
+.viola-switch {
+  width: 120px;
+  overflow: hidden;
+  input {
+    display: none;
   }
-  &.switch-box-ani {
-    transition: background-color ease 0.4s;
+  .slot {
+    height: 31px;
+    width: 50px;
+    display: inline-block;
+    line-height: 31px;
+    text-align: center;
+    color: #000;
+    font-weight: bold;
+    border: 1px solid transparent;
+    float: left;
   }
-  span {
-    width: 29px;
-    height: 29px;
-    position: absolute;
-    top: 0;
-    left: 0;
+  .switch-box {
+    width: 52px;
+    height: 31px;
+    position: relative;
+    border: 1px solid #dfdfdf;
+    background-color: #fdfdfd;
+    box-shadow: #dfdfdf 0 0 0 0 inset;
     border-radius: 20px;
-    background-color: #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-    &.switch-box-ani2 {
-      transition: left ease 0.3s;
-    }
+    background-clip: content-box;
+    display: inline-block;
+    -webkit-appearance: none;
+    user-select: none;
+    outline: none;
     &.checked {
-      left: 21px;
+      border-color: #64bd63;
+      box-shadow: #64bd63 0 0 0 16px inset;
+      background-color: #64bd63;
+    }
+    &.switch-box-ani {
+      transition: background-color ease 0.4s;
+    }
+    span {
+      width: 29px;
+      height: 29px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 20px;
+      background-color: #fff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+      &.switch-box-ani2 {
+        transition: left ease 0.3s;
+      }
+      &.checked {
+        left: 21px;
+      }
     }
   }
 }

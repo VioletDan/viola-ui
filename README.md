@@ -1,10 +1,12 @@
-# myproject
+# violadan-ui
 
-> A Vue.js project
+> 工作之余写的小 ui，初次写，请大家多多指教
+
+![image](images/switch.png)
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 npm install
 

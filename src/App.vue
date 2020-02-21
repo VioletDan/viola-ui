@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <viola-switch v-model="isSwitch"></viola-switch>
+    <viola-switch v-model="isSwitch">开关：</viola-switch>
   </div>
 </template>
 
@@ -9,8 +9,13 @@ export default {
   name: "app",
   data() {
     return {
-      isSwitch: true
+      isSwitch: false
     };
+  },
+  watch: {
+    isSwitch: newValue => {
+      console.log("开关:", newValue);
+    }
   }
 };
 </script>
