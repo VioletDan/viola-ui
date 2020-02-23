@@ -1,6 +1,7 @@
 import ViolaSwitch from './packages/switch/index'
+import ViolaButton from './packages/button/index'
 
-const components = [ViolaSwitch];
+const components = [ViolaSwitch, ViolaButton];
 const install = function (Vue, options) {
   components.map((component) => {
     Vue.component(component.name, component)
@@ -14,5 +15,6 @@ if (typeof window !== 'undefined' && window.Vue) {
 
 export default {
   install,
-  ViolaSwitch
+  ViolaSwitch,
+  ViolaButton
 }
