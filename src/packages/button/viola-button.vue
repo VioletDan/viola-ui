@@ -3,6 +3,9 @@
     <span class="slot"><slot></slot></span>
     <div class="button-ani" @click="btnClick">按钮</div>
     <div>{{ toChild }}</div>
+    <div class="centerBox">
+      <div class="con">我要垂直居中</div>
+    </div>
   </div>
 </template>
 
@@ -122,16 +125,41 @@ export default {
     box-shadow: #64bd63 0 0 0 16px inset;
     float: left;
   }
-  &.clearfix:after{
-    content: '';
+  &.clearfix:after {
+    content: "";
     height: 0;
     line-height: 0;
-    display: block; 
+    display: block;
     visibility: hidden;
     clear: both;
   }
-  &.clearfix{
+  &.clearfix {
     zoom: 1;
+  }
+
+  .centerBox {
+    width: abs($number: -130px);
+    // width: percentage($number: 0.5);
+    height: ceil($number: 49.5px);
+    // background: #64bd63;
+    // background-color: adjust-color(hsl(25, 100%, 80%), $lightness: -30%, $alpha: -0.4);
+    // background-color: adjust-color(#102030, $red: -5, $blue: 5);
+    // background-color: adjust-color(#102030, $blue: 5);
+    // background-color: adjust-hue(hsl(120, 30%, 90%), 60deg);
+    // background-color: blue(hsl(240, 100%, 50%))blue(hsl(240, 100%, 50%));
+    // background-color: blue(rgb(100, 200, 70));
+    // background-color: darken(hsl(25, 100%, 80%), 30%);
+    // background-color: desaturate(#855, 20%);
+    // background-color: opacify(rgba(0, 0, 17, 0.8), 0.2);
+    background-color: grayscale(red);
+    color: #fff;
+    margin-top: 20px;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    .con {
+      display: inline-table;
+    }
   }
 }
 </style>
