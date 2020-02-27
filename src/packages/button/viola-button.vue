@@ -10,6 +10,10 @@
 </template>
 
 <script>
+import axios from "axios";
+var objTest = {
+  name: "我是测试哈哈哈哈哈哈哈"
+};
 export default {
   name: "ViolaButton",
   props: {
@@ -20,7 +24,23 @@ export default {
   },
   data() {
     return {
-      toParent: "toParent"
+      toParent: "toParent",
+      arrList: [
+        {
+          name: 4,
+          age: 5,
+          fn: () => {
+            console.log(5555);
+          },
+          test: undefined,
+          list: {
+            name2: 6666,
+            fn: () => {
+              console.log(888888);
+            }
+          }
+        }
+      ]
     };
   },
   computed: {},
@@ -35,6 +55,23 @@ export default {
       window.getComputedStyle(document.getElementsByClassName("button-ani")[0])
         .height
     );
+
+    //原生ajax
+    // this.xhr();
+
+    // 对象深拷贝
+    var obj = this.deepCloneObjFn(this.arrList);
+    obj[0].list.fn();
+    console.log(obj);
+    //lodash
+    const obj2 = _.cloneDeep(this.arrList);
+    console.log(obj2);
+    _.defer(function(stamp) {
+      console.log(_.now() - stamp);
+    }, _.now());
+
+    //this的指向以及call和apply的区别
+    this.funcTest()(1, 2);
   },
   watch: {},
   methods: {
@@ -91,6 +128,69 @@ export default {
         [arr[i], arr[random]] = [arr[random], arr[i]];
       }
       return arr;
+    },
+    // ------------原生ajax
+    xhr() {
+      // axios.defaults.baseURL = '/api/';
+      // axios
+      //   .get(
+      //     "splcloud/fcgi-bin/gethotkey.fcg?g_tk=5381&loginUin=0&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq.json&needNewCode=0"
+      //   )
+      //   .then(res => {
+      //     console.log(res);
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   });
+      var xhr = null;
+      if (window.XMLHttpRequest) {
+        //IE7+,Firefox,Chrome,Safari,Opera
+        xhr = new XMLHttpRequest();
+      } else {
+        xhr = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+
+      xhr.open(
+        "GET",
+        "/api/splcloud/fcgi-bin/gethotkey.fcg?g_tk=5381&loginUin=0&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq.json&needNewCode=0",
+        true
+      );
+      xhr.send();
+      xhr.onreadysatechange = function(e) {
+        if ((xhr, readyState === 4 && xhr.status === 200)) {
+          console.log(xhr.responseXML);
+        }
+      };
+    },
+    // ------------对象深拷贝
+    deepCloneObjFn(obj) {
+      // var deepCopyObj = JSON.parse(JSON.stringify(this.arrList));
+      // deepCopyObj[0].name = 6666666;
+      // console.log(this.arrList, deepCopyObj);
+
+      // var CopyObj = Object.assign({}, this.arrList);
+      // CopyObj[0].name = 6666666;
+      // console.log(this.arrList, CopyObj);
+
+      let deepCopyObj = Array.isArray(obj) ? [] : {};
+      if (obj && typeof obj === "object") {
+        for (let key in obj) {
+          //判断子元素是不是对象.如果是就递归复制
+          if (obj[key] && typeof obj[key] === "object") {
+            deepCopyObj[key] = this.deepCloneObjFn(obj[key]);
+          } else {
+            deepCopyObj[key] = obj[key];
+          }
+        }
+      }
+
+      return deepCopyObj;
+    },
+    // ------------this指向问题
+    funcTest(a, b) {
+      return function fn(a, b) {
+        console.log(a + " " + +" " + b);
+      };
     }
   },
   components: {}
