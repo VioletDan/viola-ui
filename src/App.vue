@@ -1,8 +1,7 @@
 <template>
   <div id="app">
     <viola-switch v-model="isSwitch">开关：</viola-switch>
-    <div>{{fromChild}}</div>
-    <viola-button class="viola-button" @event="event($event)" v-bind:toChild="toChild">按钮:</viola-button>
+    <viola-button class="viola-button" :type="type">按钮:</viola-button>
   </div>
 </template>
 
@@ -12,8 +11,7 @@ export default {
   data() {
     return {
       isSwitch: false,
-      fromChild:'fromChild',
-      toChild:'I am a fahter'
+      type:'default2'
     };
   },
   watch: {
@@ -21,12 +19,7 @@ export default {
       console.log("开关:", newValue);
     }
   },
-  methods:{
-    event(data){
-      console.log(data)
-      this.fromChild = data;
-    }
-  }
+  methods: {}
 };
 </script>
 
@@ -38,7 +31,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-  .viola-button{
+  .viola-button {
     margin-top: 20px;
   }
 }
