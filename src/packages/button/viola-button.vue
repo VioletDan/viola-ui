@@ -1,7 +1,6 @@
 <template>
   <div class="viola-button clearfix">
-    <span class="slot"><slot></slot></span>
-    <div class="button-ani">{{type}}</div>
+    <div :class="[typeClass, 'button-ani']"><slot></slot></div>
   </div>
 </template>
 
@@ -10,39 +9,23 @@ import axios from "axios";
 export default {
   name: "ViolaButton",
   props: {
-    type:{
-      type:String,
-      value:'default'
+    type: {
+      type: String,
+      value: "default"
     }
   },
   data() {
-    return {
-      toParent: "toParent",
-      arrList: [
-        {
-          name: 4,
-          age: 5,
-          fn: () => {
-            console.log(5555);
-          },
-          test: undefined,
-          list: {
-            name2: 6666,
-            fn: () => {
-              console.log(888888);
-            }
-          }
-        }
-      ]
-    };
+    return {};
   },
-  computed: {},
+  computed: {
+    typeClass() {
+      return `viola-button-${this.type}`;
+    }
+  },
   created() {},
-  mounted() {
-  },
+  mounted() {},
   watch: {},
-  methods: {
-  },
+  methods: {},
   components: {}
 };
 </script>
@@ -50,6 +33,8 @@ export default {
 <style scoped lang="scss">
 .viola-button {
   // overflow: hidden;
+  display: inline-block;
+  margin-right: 20px;
   .slot {
     height: 31px;
     width: auto;
@@ -62,18 +47,17 @@ export default {
     margin-right: 15px;
     float: left;
   }
-  .button-ani {
-    width: 80px;
-    height: 31px;
-    margin: 0 auto;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+  .button-ani,
+  .viola-button-default {
+    padding: 0 15px;
+    height: 44px;
+    font-size: 14px;
+    line-height: 42px;
     text-align: center;
-    line-height: 31px;
-    color: #fff;
-    border-color: #64bd63;
-    box-shadow: #64bd63 0 0 0 16px inset;
-    float: left;
+    display: inline-block;
+    border-radius: 2px;
+    background-color: #fff;
+    border: 1px solid #ebedf0;
     cursor: pointer;
   }
   &.clearfix:after {
@@ -86,6 +70,16 @@ export default {
   }
   &.clearfix {
     zoom: 1;
+  }
+  .viola-button-primary {
+    color: #fff;
+    background-color: #07c160;
+    border: 1px solid #07c160;
+  }
+  .viola-button-info {
+    color: #fff;
+    background-color: #1989fa;
+    border: 1px solid #1989fa;
   }
 }
 </style>

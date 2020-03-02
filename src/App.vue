@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <viola-switch v-model="isSwitch">开关：</viola-switch>
-    <viola-button class="viola-button" :type="type">按钮:</viola-button>
+    <viola-button class="viola-button" :type="item.type" v-for="item in typeList">{{item.text}}</viola-button>
   </div>
 </template>
 
@@ -11,7 +11,16 @@ export default {
   data() {
     return {
       isSwitch: false,
-      type:'default2'
+      typeList:[{
+        type:'default',
+        text:'默认按钮'
+      },{
+        type:'primary ',
+        text:'主要按钮'
+      },{
+        type:'info',
+        text:'信息按钮'
+      }]
     };
   },
   watch: {
