@@ -1,17 +1,68 @@
 <template>
   <div class="viola-button clearfix">
-    <div :class="[typeClass, 'button-ani']"><slot></slot></div>
+    <span> <slot></slot></span>
+    <button :class="[typeClass, 'button-ani']" :disabled="disabled">
+      <span class="iconFont viola-button-icon" v-if="!loading">
+        <i :class="['iconfont', icon]" v-if="!setIcon"></i>
+        <img class="viola-button-icon-img" :src="icon" v-else />
+      </span>
+      <span class="button_text" v-if="!loading">{{ text }}</span>
+      <LoadingUI v-else :loading-type="setLoadingType">{{
+        loadingText
+      }}</LoadingUI>
+    </button>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import LoadingUI from "../loading/index";
 export default {
   name: "ViolaButton",
   props: {
     type: {
       type: String,
       value: "default"
+    },
+    text: {
+      type: [String, Number],
+      value: "默认按钮"
+    },
+    //朴素按钮
+    plain: {
+      type: [Boolean],
+      value: false
+    },
+    //是否禁用
+    disabled: {
+      type: [Boolean],
+      value: false
+    },
+    //是否显示为加载状态
+    loading: {
+      type: [Boolean],
+      value: false
+    },
+    //加载文字
+    loadingText: {},
+    //加载图标类型 可选 spinner circular
+    loadingType: {
+      type: [String],
+      value: "spinner"
+    },
+    //按钮形状 可选 square(方形) round(圆形)
+    buttonShape: {
+      type: [String],
+      value: "square"
+    },
+    //图标icon
+    icon: {
+      type: [String]
+    },
+    //block 是否是块级元素
+    block: {
+      type: Boolean,
+      value: false
     }
   },
   data() {
@@ -19,18 +70,50 @@ export default {
   },
   computed: {
     typeClass() {
-      return `viola-button-${this.type}`;
+      let _type = `viola-button-${this.type}`;
+      let _plain = this.plain ? `viola-button-plain` : "";
+      let _disabled = this.disabled ? `viola-button-disabled` : "";
+      let _loading = this.loading ? `viola-button-loading` : "";
+      let _buttonShape = this.buttonShape
+        ? `viola-button-${this.buttonShape}`
+        : "viola-button-square";
+      let _block = this.block ? `viola-button-block`:"";
+      return `${_type} ${_plain} ${_disabled} ${_loading} ${_buttonShape} ${_block}`;
+    },
+    //设置加载类型的默认值
+    setLoadingType() {
+      return this.loadingType || "spinner";
+    },
+    //判断用户传入的是图标字符还是链接
+    setIcon() {
+      return this.CheckUrl(this.icon);
     }
   },
   created() {},
   mounted() {},
   watch: {},
-  methods: {},
-  components: {}
+  methods: {
+    CheckUrl(str) {
+      var RegUrl = new RegExp();
+      RegUrl.compile("^[A-Za-z]+://[A-Za-z0-9-_]+\\.[A-Za-z0-9-_%&\?\/.=]+$");
+      if (!RegUrl.test(str)) {
+        return false;
+      }
+      return true;
+    }
+  },
+  components: {
+    LoadingUI
+  }
 };
 </script>
 
 <style scoped lang="scss">
+button {
+  border: 0;
+  background-color: transparent;
+  outline: none;
+}
 .viola-button {
   // overflow: hidden;
   display: inline-block;
@@ -59,6 +142,9 @@ export default {
     background-color: #fff;
     border: 1px solid #ebedf0;
     cursor: pointer;
+    & .button_text {
+      vertical-align: middle;
+    }
   }
   &.clearfix:after {
     content: "";
@@ -80,6 +166,57 @@ export default {
     color: #fff;
     background-color: #1989fa;
     border: 1px solid #1989fa;
+  }
+  .viola-button-danger {
+    color: #fff;
+    background-color: #ee0a24;
+    border: 1px solid #ee0a24;
+  }
+  .viola-button-warning {
+    color: #fff;
+    background-color: #ff976a;
+    border: 1px solid #ff976a;
+  }
+  // viola-button-plai
+  .viola-button-primary.viola-button-plain {
+    color: #07c160;
+    background-color: #fff;
+    border: 1px solid #07c160;
+  }
+  .viola-button-info.viola-button-plain {
+    color: #1989fa;
+    background-color: #fff;
+    border: 1px solid #1989fa;
+  }
+  .viola-button-danger.viola-button-plain {
+    color: #ee0a24;
+    background-color: #fff;
+    border: 1px solid #ee0a24;
+  }
+  .viola-button-warning.viola-button-plain {
+    color: #ff976a;
+    background-color: #fff;
+    border: 1px solid #ff976a;
+  }
+  .viola-button-disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  .viola-button-round {
+    border-radius: 999px;
+  }
+  .viola-button-icon {
+    vertical-align: middle;
+    line-height: inherit;
+    & .viola-button-icon-img {
+      width: 1em;
+      height: 1em;
+      object-fit: contain;
+    }
+  }
+  .viola-button-block{
+    width: 100%;
+    display: block;
   }
 }
 </style>

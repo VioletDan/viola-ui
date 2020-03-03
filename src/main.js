@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
-import _   from 'lodash'
+import _ from 'lodash'
+
+import './static/css/common.css'
 
 //未发布前
 import ViolaUI from './index'
