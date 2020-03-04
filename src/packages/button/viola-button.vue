@@ -1,7 +1,11 @@
 <template>
   <div class="viola-button clearfix">
     <span> <slot></slot></span>
-    <button :class="[typeClass, 'button-ani']" :disabled="disabled">
+    <button
+      :class="[typeClass, 'button-ani']"
+      :disabled="disabled"
+      @click="btnClick"
+    >
       <span class="iconFont viola-button-icon" v-if="!loading">
         <i :class="['iconfont', icon]" v-if="!setIcon"></i>
         <img class="viola-button-icon-img" :src="icon" v-else />
@@ -10,6 +14,10 @@
       <LoadingUI v-else :loading-type="setLoadingType">{{
         loadingText
       }}</LoadingUI>
+
+      <!-- <transition name="fade">
+        <p v-if="show">6666</p>
+      </transition> -->
     </button>
   </div>
 </template>
@@ -22,38 +30,40 @@ export default {
   props: {
     type: {
       type: String,
-      value: "default"
+      default: "default"
     },
     text: {
       type: [String, Number],
-      value: "默认按钮"
+      default: ""
     },
     //朴素按钮
     plain: {
       type: [Boolean],
-      value: false
+      default: false
     },
     //是否禁用
     disabled: {
       type: [Boolean],
-      value: false
+      default: false
     },
     //是否显示为加载状态
     loading: {
       type: [Boolean],
-      value: false
+      default: false
     },
     //加载文字
-    loadingText: {},
+    loadingText: {
+      default: ""
+    },
     //加载图标类型 可选 spinner circular
     loadingType: {
       type: [String],
-      value: "spinner"
+      default: "spinner"
     },
     //按钮形状 可选 square(方形) round(圆形)
     buttonShape: {
       type: [String],
-      value: "square"
+      default: "square"
     },
     //图标icon
     icon: {
@@ -62,11 +72,18 @@ export default {
     //block 是否是块级元素
     block: {
       type: Boolean,
-      value: false
+      default: false
+    },
+    //url 导航跳转的链接
+    url: {
+      type: [String],
+      default: ""
     }
   },
   data() {
-    return {};
+    return {
+      show: true
+    };
   },
   computed: {
     typeClass() {
@@ -77,7 +94,7 @@ export default {
       let _buttonShape = this.buttonShape
         ? `viola-button-${this.buttonShape}`
         : "viola-button-square";
-      let _block = this.block ? `viola-button-block`:"";
+      let _block = this.block ? `viola-button-block` : "";
       return `${_type} ${_plain} ${_disabled} ${_loading} ${_buttonShape} ${_block}`;
     },
     //设置加载类型的默认值
@@ -93,6 +110,7 @@ export default {
   mounted() {},
   watch: {},
   methods: {
+    //检查图片链接是否正确
     CheckUrl(str) {
       var RegUrl = new RegExp();
       RegUrl.compile("^[A-Za-z]+://[A-Za-z0-9-_]+\\.[A-Za-z0-9-_%&\?\/.=]+$");
@@ -100,6 +118,13 @@ export default {
         return false;
       }
       return true;
+    },
+    //点击事件
+    btnClick(e) {
+      // this.show = !this.show;      
+      if (this.url) {
+        window.location.href = this.url;
+      }
     }
   },
   components: {
@@ -116,8 +141,8 @@ button {
 }
 .viola-button {
   // overflow: hidden;
-  display: inline-block;
-  margin-right: 20px;
+  // display: inline-block;
+  // margin-right: 20px;
   .slot {
     height: 31px;
     width: auto;
@@ -214,9 +239,16 @@ button {
       object-fit: contain;
     }
   }
-  .viola-button-block{
+  .viola-button-block {
     width: 100%;
     display: block;
   }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
