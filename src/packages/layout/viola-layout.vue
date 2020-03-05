@@ -18,8 +18,15 @@
 </template>
 
 <script>
+import minxin from "./mixin";
 export default {
+  mixins: [minxin],
   name: "ViolaLayout",
+  directives: {
+    pin: {
+      bind: function(el, binding, vnode) {}
+    }
+  },
   props: {
     todos: {
       type: [Array]

@@ -1,8 +1,9 @@
 import ViolaSwitch from "./packages/switch/index";
 import ViolaButton from "./packages/button/index";
 import ViolaLayout from "./packages/layout/index";
+import ViolaCell from "./packages/cell/index";
 
-const components = [ViolaSwitch, ViolaButton, ViolaLayout];
+const components = [ViolaSwitch, ViolaButton, ViolaLayout, ViolaCell];
 const install = function(Vue, options) {
   components.map(component => {
     Vue.component(component.name, component);
@@ -18,5 +19,6 @@ export default {
   install,
   ViolaSwitch,
   ViolaButton,
-  ViolaLayout
+  ViolaLayout,
+  ViolaCell
 };

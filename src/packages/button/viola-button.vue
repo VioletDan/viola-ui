@@ -4,6 +4,7 @@
     <button
       :class="[typeClass, 'button-ani']"
       :disabled="disabled"
+      :style="setColorStyle"
       @click="btnClick"
     >
       <span class="iconFont viola-button-icon" v-if="!loading">
@@ -23,7 +24,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import LoadingUI from "../loading/index";
 export default {
   name: "ViolaButton",
@@ -78,6 +78,16 @@ export default {
     url: {
       type: [String],
       default: ""
+    },
+    //to 路由导航跳转
+    to: {
+      type: [String],
+      default: ""
+    },
+    //自定义按钮的颜色
+    color: {
+      type: [String],
+      default: ""
     }
   },
   data() {
@@ -104,6 +114,18 @@ export default {
     //判断用户传入的是图标字符还是链接
     setIcon() {
       return this.CheckUrl(this.icon);
+    },
+    //设置颜色样式
+    setColorStyle() {
+      let styleObj = {};
+      if (this.plain) {
+        styleObj.color = `${this.color}`;
+        styleObj.borderColor = `${this.color}`;
+      } else if (this.color) {
+        styleObj.color = `rgb(255,255,255)`;
+        styleObj.background = `${this.color}`;
+      }
+      return styleObj;
     }
   },
   created() {},
@@ -121,9 +143,14 @@ export default {
     },
     //点击事件
     btnClick(e) {
-      // this.show = !this.show;      
+      // this.show = !this.show;
       if (this.url) {
         window.location.href = this.url;
+      }
+      if (this.to) {
+        this.$router.push({
+          path: this.to
+        });
       }
     }
   },
@@ -182,55 +209,58 @@ button {
   &.clearfix {
     zoom: 1;
   }
-  .viola-button-primary {
+  & .viola-button-primary {
     color: #fff;
     background-color: #07c160;
     border: 1px solid #07c160;
   }
-  .viola-button-info {
+  & .viola-button-info {
     color: #fff;
     background-color: #1989fa;
     border: 1px solid #1989fa;
   }
-  .viola-button-danger {
+  & .viola-button-danger {
     color: #fff;
     background-color: #ee0a24;
     border: 1px solid #ee0a24;
   }
-  .viola-button-warning {
+  & .viola-button-warning {
     color: #fff;
     background-color: #ff976a;
     border: 1px solid #ff976a;
   }
   // viola-button-plai
-  .viola-button-primary.viola-button-plain {
+  & .viola-button-plain {
+    background-color: #fff;
+  }
+  & .viola-button-primary.viola-button-plain {
     color: #07c160;
     background-color: #fff;
     border: 1px solid #07c160;
   }
-  .viola-button-info.viola-button-plain {
+  & .viola-button-info.viola-button-plain {
     color: #1989fa;
     background-color: #fff;
     border: 1px solid #1989fa;
   }
-  .viola-button-danger.viola-button-plain {
+  & .viola-button-danger.viola-button-plain {
     color: #ee0a24;
     background-color: #fff;
     border: 1px solid #ee0a24;
   }
-  .viola-button-warning.viola-button-plain {
+  & .viola-button-warning.viola-button-plain {
     color: #ff976a;
     background-color: #fff;
     border: 1px solid #ff976a;
   }
-  .viola-button-disabled {
+  & .viola-button-disabled {
     cursor: not-allowed;
     opacity: 0.5;
   }
-  .viola-button-round {
+  & .viola-button-round {
     border-radius: 999px;
   }
-  .viola-button-icon {
+  & .viola-button-icon {
     vertical-align: middle;
     line-height: inherit;
     & .viola-button-icon-img {
@@ -239,14 +269,15 @@ button {
       object-fit: contain;
     }
   }
-  .viola-button-block {
+  & .viola-button-block {
     width: 100%;
     display: block;
   }
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
