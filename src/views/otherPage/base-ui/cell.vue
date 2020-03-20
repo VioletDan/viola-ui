@@ -1,8 +1,9 @@
 <template>
-  <div class="cellPage" @click.exact="cellClick">
-    <p v-if="show" ref="pNode">99999</p>
-    <p v-for="(item,index) in arr" :key="index">{{item}}</p>
-    <viola-cell></viola-cell>
+  <div class="cellPage">
+    <div class="viola-doc-demo-block">
+      <h2 class="viola-doc-demo-block-title">基础用法</h2>
+      <viola-cell :title="title" :value="value"></viola-cell>
+    </div>
   </div>
 </template>
 
@@ -12,33 +13,34 @@ export default {
   props: {},
   data() {
     return {
-      show: false,
-      arr:[1,2,3]
+      title: "测试1",
+      value: "单元格44"
     };
   },
   computed: {},
   created() {},
   mounted() {},
-  watch: {
-      arr(newVal,oldVal){
-          console.log(newVal,'watch',oldVal)
-      }
-  },
-  methods: {
-    cellClick(e) {
-      console.log(e)
-      this.show = true;
-    //   this.arr[2]="我更改了"
-      this.$set(this.arr,2,'我更改了')
-      console.log(this.$refs.pNode);//undefined
-      this.$nextTick(() => {
-        console.log(this.$refs.pNode, "nextTick");
-        this.$refs.pNode.innerHTML = " 5555"; //<p data-v-4e98a56b=""> 5555</p>
-      });
-    }
-  },
+  watch: {},
+  methods: {},
   components: {}
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.cellPage {
+  padding: 16px 0;
+  & .viola-doc-demo-block {
+    width: 100%;
+    box-sizing: border-box;
+    & .viola-doc-demo-block-title {
+      margin: 0;
+      padding: 32px 16px 16px 16px;
+      color: rgba(69, 90, 100, 0.6);
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 16px;
+      text-align: left;
+    }
+  }
+}
+</style>
